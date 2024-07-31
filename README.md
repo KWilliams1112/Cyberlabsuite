@@ -1,21 +1,57 @@
 <h1>Cyber Lab Suite</h1>
 
 <h2>Description</h2>
-Project consists of a simple PowerShell script that walks the user through "zeroing out" (wiping) any drives that are connected to the system. The utility allows you to select the target disk and choose the number of passes that are performed. The PowerShell script will configure a diskpart script file based on the user's selections and then launch Diskpart to perform the disk sanitization.
+Project consists of building a cybersecurity suite of tools for monitoring, testing and exploitation excercises. In building this lab I hope to demonstrate a level of understanding across various tools, systems and concepts being used in cybersecurity today. 
 <br />
 
 
-<h2>Languages and Utilities Used</h2>
+<h2>Services, Environments & Utlities Used</h2>
 
-- <b>PowerShell</b> 
-- <b>Diskpart</b>
+- <b>Proxmox</b> 
+- <b>PfSense</b>
+- <b>Kali Linux</b>
+- <b>Wazuh</b>
+- <b>Caldera</b>
+- <b>The Hive</b>
+- <b>Metasploitable 2</b>
+- <b>DVWA</b>
+- <b>Windows Server 2022</b>
+- <b>Windows 10</b>
+- <b>Docker</b>
 
-<h2>Environments Used </h2>
+<h2>Lab Suite Walk-Through:</h2>
 
-- <b>Windows 10</b> (21H2)
+Firstly we are going to think about our network segmentation using VLANs to isolate different types of traffic for security and management purposes. Let's start by outlining the network configuration.
 
-<h2>Program walk-through:</h2>
+<h2>Network Configuration</h2>
 
+<h3>VLAN 1 - Management and Security Tools</h3>
+
+- <b>Applications: The Hive, Cortex, Nessus, Kali Linux, Caldera, Wazuh</b>
+
+- <b>Purpose: This VLAN is for your primary security tools and management systems. These tools will be used to monitor, scan and manage the other VLANs.</b>
+
+<h3>VLAN 10 - Vulnerable Systems for Testing</h3>
+
+- <b> Applications: Metasploitable, DVWA </b>
+
+- <b>Purpose: This VLAN contains intentionally vulnerable systems used for testing and exploitation excercises. It allows us to safely practice penetration testing and vulnerability assessments without risking our primary network.</b>
+
+<h3>VLAN 20 - Standard Operating Systems</h3>
+
+- <b>Applications: Windows Server, Windows 10</b>
+
+- <b>Purpose: This VLAN hosts standard operating systems which can be used as targets for security testing or for setting up services that other applications depend on.</b>
+
+<h3>VLAN 30 - Web Application Security Testing</h3>
+
+- <b>Applications: Docker, WebGoat, bW App, DVWA</b>
+
+- <b> Purpose: This VLAN is for web application security testing environments. Docker can be used to easily deploy and manage instances of these applications.</b>
+
+
+
+<!---
 <p align="center">
 Launch the utility: <br/>
 <img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
@@ -44,6 +80,8 @@ Sanitization complete:  <br/>
 Observe the wiped disk:  <br/>
 <img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
+
+--!>
 
 <!--
  ```diff
