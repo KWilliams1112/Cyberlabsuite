@@ -49,6 +49,8 @@ Firstly we are going to think about our network segmentation using VLANs to isol
 
 - <b> Purpose: This VLAN is for web application security testing environments. Docker can be used to easily deploy and manage instances of these applications.</b>
 
+<h3>Let's get our VMs setup</h3>
+
 
 
 <!---
