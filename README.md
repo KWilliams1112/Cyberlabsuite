@@ -51,6 +51,12 @@ Firstly we are going to think about our network segmentation using VLANs to isol
 
 <h3>Let's get our VMs setup</h3>
 
+For this I will be using proxmox as its my hypervisor of choice, however setting up a virtual machine is relatively the same across the board. We are going to look at the minimum requirements to run each service and use that as our baseline to get everything up and running.
+
+Looking at our network configuration we see that we need a few VLANs setup and we want our Kali Linux machine to be within VLAN 1. So those are going to be the first two things we setup.
+
+Within proxmox we’re going to want to get create a local LAN environment for all of this stuff to live. So on your proxmox node you’re going to want to go to System -> Network -> Create -> Linux Bridge. From here we are going to set up our bridge giving it a name (I left mine default) and the IP address range it will have (I’m going with 10.10.1.0/24). Lastly select apply configuration to get all this applied.
+
 
 
 <!---
