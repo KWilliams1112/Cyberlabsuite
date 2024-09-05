@@ -56,88 +56,88 @@ Setting up routing between VLANs with pfSense in your Proxmox homelab involves c
 <h3>Step 1: Install pfSense on Proxmox</h3>
 
 	1.	Download pfSense ISO:
-	   •	Go to the pfSense website and download the ISO image.
+	   -	Go to the pfSense website and download the ISO image.
 	2.	Upload ISO to Proxmox:
-	   •	In the Proxmox web interface, go to Datacenter -> Storage -> ISO Images -> Upload.
-	   •	Upload the pfSense ISO.
+	   -	In the Proxmox web interface, go to Datacenter -> Storage -> ISO Images -> Upload.
+	   -	Upload the pfSense ISO.
 	3.	Create a New VM for pfSense:
-	   •	Go to Create VM in Proxmox.
-	   •	Name the VM (e.g., “pfSense-Router”).
-	   •	Choose the pfSense ISO image as the installation media.
-	   •	Configure the VM:
-	   •	CPU: 2 Cores
-	   •	Memory: 2 GB RAM
-	   •	Storage: 10 GB disk space
-	   •	Network Configuration: Initially, assign a single network interface (e.g., vmbr0 for LAN).
+	   -	Go to Create VM in Proxmox.
+	   -	Name the VM (e.g., “pfSense-Router”).
+	   -	Choose the pfSense ISO image as the installation media.
+	   -	Configure the VM:
+	   -	CPU: 2 Cores
+	   -	Memory: 2 GB RAM
+	   -	Storage: 10 GB disk space
+	   -	Network Configuration: Initially, assign a single network interface (e.g., vmbr0 for LAN).
 	4.	Install pfSense:
-	   •	Start the VM and follow the pfSense installation prompts.
-	   •	Set up the pfSense admin password and complete the installation.
+	   -	Start the VM and follow the pfSense installation prompts.
+	   -	Set up the pfSense admin password and complete the installation.
 
 Step 2: Configure VLAN Interfaces in pfSense
 
 	1.	Access pfSense Web Interface:
-	   •	After installation, access the pfSense web interface using the IP assigned to the pfSense LAN interface (e.g., https://192.168.1.1).
+	   -	After installation, access the pfSense web interface using the IP assigned to the pfSense LAN interface (e.g., https://192.168.1.1).
 	2.	Initial Setup:
-	   •	Complete the initial setup wizard in pfSense.
-	   •	Set the LAN interface IP to 192.168.1.1/24 or any appropriate subnet for VLAN 1.
+	   -	Complete the initial setup wizard in pfSense.
+	   -	Set the LAN interface IP to 192.168.1.1/24 or any appropriate subnet for VLAN 1.
 	3.	Add VLANs to pfSense:
-	   •	Go to Interfaces -> Assignments -> VLANs.
-	   •	Click Add to create VLANs corresponding to your VLAN setup.
-	   •	Example:
-	   •	VLAN 10: Parent Interface: vmbr0, VLAN Tag: 10
-	   •	VLAN 20: Parent Interface: vmbr0, VLAN Tag: 20
-	   •	VLAN 30: Parent Interface: vmbr0, VLAN Tag: 30
-	   •	Save the VLAN configurations.
+	   -	Go to Interfaces -> Assignments -> VLANs.
+	   -	Click Add to create VLANs corresponding to your VLAN setup.
+	   -	Example:
+	   -	VLAN 10: Parent Interface: vmbr0, VLAN Tag: 10
+	   -	VLAN 20: Parent Interface: vmbr0, VLAN Tag: 20
+	   -	VLAN 30: Parent Interface: vmbr0, VLAN Tag: 30
+	   -	Save the VLAN configurations.
 	4.	Assign VLANs to Interfaces:
-	   •	Go to Interfaces -> Assignments.
-	   •	Assign each VLAN to an interface.
-	   •	Example:
-	   •	VLAN 10: OPT1
-	   •	VLAN 20: OPT2
-	   •	VLAN 30: OPT3
-	   •	Enable these interfaces and assign appropriate IP addresses for each VLAN:
-	   •	VLAN 10: 192.168.10.1/24
-	   •	VLAN 20: 192.168.20.1/24
-	   •	VLAN 30: 192.168.30.1/24
+	   -	Go to Interfaces -> Assignments.
+	   -	Assign each VLAN to an interface.
+	   -	Example:
+	   -	VLAN 10: OPT1
+	   -	VLAN 20: OPT2
+	   -	VLAN 30: OPT3
+	   -	Enable these interfaces and assign appropriate IP addresses for each VLAN:
+	   -	VLAN 10: 192.168.10.1/24
+	   -	VLAN 20: 192.168.20.1/24
+	   -	VLAN 30: 192.168.30.1/24
 
 Step 3: Set Up DHCP for Each VLAN (Optional)
 
 <b>Please note that for the VLAN with the Windows machines its best to use Windows Server to perform DHCP</b>
 
 	1.	Enable DHCP Server:
-	   •	Go to Services -> DHCP Server.
-	   •	Enable the DHCP server for each VLAN interface (OPT1, OPT2, OPT3).
-	   •	Configure the DHCP range for each VLAN
-	   •	Example:
-	   •	VLAN 10: 192.168.10.100 - 192.168.10.200
-	   •	VLAN 20: 192.168.20.100 - 192.168.20.200
-	   •	VLAN 30: 192.168.30.100 - 192.168.30.200
+	   -	Go to Services -> DHCP Server.
+	   -	Enable the DHCP server for each VLAN interface (OPT1, OPT2, OPT3).
+	   -	Configure the DHCP range for each VLAN
+	   -	Example:
+	   -	VLAN 10: 192.168.10.100 - 192.168.10.200
+	   -	VLAN 20: 192.168.20.100 - 192.168.20.200
+	   -	VLAN 30: 192.168.30.100 - 192.168.30.200
 
 Step 4: Configure Firewall Rules
 
 	1.	Set Up Allow Rules Between VLANs:
-	   •	By default, pfSense blocks all inter-VLAN traffic. You need to create rules to allow communication between VLANs.
-	   •	Go to Firewall -> Rules -> Select the VLAN interface (e.g., OPT1 for VLAN 10).
-	   •	Add a rule to allow traffic from VLAN 10 to VLAN 20 and VLAN 30:
-	   •	Action: Pass
-	   •	Protocol: Any
-	   •	Source: VLAN 10 subnet (192.168.10.0/24)
-	   •	Destination: VLAN 20 subnet (192.168.20.0/24) or VLAN 30 subnet (192.168.30.0/24)
-	   •	Repeat this process for other VLANs to allow desired inter-VLAN communication.
+	   -	By default, pfSense blocks all inter-VLAN traffic. You need to create rules to allow communication between VLANs.
+	   -	Go to Firewall -> Rules -> Select the VLAN interface (e.g., OPT1 for VLAN 10).
+	   -	Add a rule to allow traffic from VLAN 10 to VLAN 20 and VLAN 30:
+	   -	Action: Pass
+	   -	Protocol: Any
+	   -	Source: VLAN 10 subnet (192.168.10.0/24)
+	   -	Destination: VLAN 20 subnet (192.168.20.0/24) or VLAN 30 subnet (192.168.30.0/24)
+	   -	Repeat this process for other VLANs to allow desired inter-VLAN communication.
 	2.	Test Connectivity:
-	   •	Once rules are in place, test the connectivity by pinging devices across VLANs.
+	   -	Once rules are in place, test the connectivity by pinging devices across VLANs.
 
 Step 5: Configure NAT and Internet Access (Optional)
 
 	1.	Set Up WAN Interface:
-	   •	If you want internet access for your VLANs, assign another network interface as a WAN connection in pfSense.
-	   •	Configure the WAN interface with your public IP or through DHCP if using a home router.
+	   -	If you want internet access for your VLANs, assign another network interface as a WAN connection in pfSense.
+	   -	Configure the WAN interface with your public IP or through DHCP if using a home router.
 	2.	Configure NAT:
-	   •	Go to Firewall -> NAT -> Outbound.
-	   •	Select Hybrid Outbound NAT Rule Generation.
-	   •	Add NAT rules for each VLAN interface to allow internet access.
+	   -	Go to Firewall -> NAT -> Outbound.
+	   -	Select Hybrid Outbound NAT Rule Generation.
+	   -	Add NAT rules for each VLAN interface to allow internet access.
 	3.	Test Internet Connectivity:
-	   •	From a device in any VLAN, test internet connectivity.
+	   -	From a device in any VLAN, test internet connectivity.
 
 
 
